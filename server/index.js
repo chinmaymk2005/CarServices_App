@@ -4,7 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const authRoute = require('./routes/authRoutes');
-
+require('dotenv').config();
+const protectedRoute = require('./routes/protectedRoute');
 
 const PORT = process.env.PORT || 5000;
 
@@ -29,6 +30,8 @@ mongoose.connect(MONGO_URI, {
 
 // Routes
 app.use('/api/auth',authRoute)
+app.use('/api/protected',protectedRoute)
+
 
 // Basic route
 app.get('/', (req, res) => {

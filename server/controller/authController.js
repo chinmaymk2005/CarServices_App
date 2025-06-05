@@ -1,4 +1,4 @@
-
+const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -76,5 +76,22 @@ exports.login = async (req, res) => {
     res.status(200).json({ message: 'Login successful', user: user._id,Token: token });
   } catch (err) {
     res.status(500).json({ message: 'Login failed', error: err.message });
+  }
+};
+
+//Check Authentication
+exports.checkAuth = (req, res) => {
+  const token = req.cookies.JwtToken; 
+  console.log('Checking authentication with token:', token);
+  
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try {
+    // Verify the token using the secret key
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ message: 'User is authenticated', user: decoded });
+  } catch (error) {
+    res.status(403).json({ message: 'Invalid or expired token' });
   }
 };

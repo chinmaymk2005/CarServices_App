@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -7,9 +7,41 @@ const Authentication = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [Name, setName] = useState(""); // For signup
-  const [loaction, setLocation] = useState(""); 
+  const [name, setName] = useState(""); // For signup
+  const [location, setLocation] = useState(""); 
   const navigate = useNavigate();
+const [checking, setChecking] = useState(true);
+
+  // Check if user is already logged in
+  useEffect(() => {
+    
+
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/auth/check-auth", {
+          method: "GET",
+          credentials: "include", // Include cookies in the request
+        });        
+        
+        if (res.status === 200) {
+          const data = await res.json();
+          console.log("User is authenticated:", data);
+          navigate("/dashboard"); // Redirect to dashboard if authenticated          
+        } else {
+          console.log("User is not authenticated");
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+      }finally{
+        setChecking(false); // Set checking to false after the check is done
+      }
+    }
+
+    if (checking) {
+      checkAuth();
+    }
+  }, [checking]);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,8 +59,7 @@ const Authentication = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();      
-      console.log("Login Response:", data);
+      const data = await res.json();            
       
       if(res.status === 200) {
         // Handle successful login
@@ -53,46 +84,50 @@ const Authentication = () => {
 
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     
     // console.log("Login Details:", { Email, Password });
-    //API call to login
+    //API call to signup
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include", // Include cookies in the request
         
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password,name, location }),
       });
 
       const data = await res.json();      
-      console.log("Login Response:", data);
+      console.log("signup Response:", data);
       
-      if(res.status === 200) {
-        // Handle successful login
-        console.log("Login successful:", data);
-        alert("Login successful!");
+      if(res.status === 201) {
+        // Handle successful Signup
+        console.log("Signup successful:", data);
+        alert("Signup successful!");
         
         setTimeout(() => {
-          navigate("/dashboard"); // Redirect to dashboard after login
+          navigate("/dashboard"); // Redirect to dashboard after signup
         },2000); // Redirect after a delay
       }
       else {
-        // Handle login failure
-        console.error("Login failed:", data);
+        // Handle signup failure
+        console.error("signup failed:", data);
         alert(data.message || "Login failed. Please try again.");
       }
 
     } catch (error) {
-      console.error("Login failed:", error);
-      alert("Login failed. Please try again.");
+      console.error("signup failed:", error);
+      alert("signup failed. Please try again.");
       return;
     }
   };
+
+  useEffect(() => {
+    // You can add side effects here if needed
+  }, []);
 
 
   return (
@@ -141,7 +176,7 @@ const Authentication = () => {
               <input
                 type="text"
                 id="name"
-                value={Name}
+                value={name}
                 onChange={e => setName(e.target.value)}
                 className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your name"
@@ -177,7 +212,7 @@ const Authentication = () => {
               <input
                 type="text"
                 id="location"
-                value={loaction}
+                value={location}
                 onChange={e => setLocation(e.target.value)}
                 className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your location"
@@ -191,28 +226,7 @@ const Authentication = () => {
               Sign Up
             </button>
           </form>
-        )}
-
-        {/* <div className="flex mb-8">
-          <button
-            className={`flex-1 hover:cursor-pointer py-2 rounded-l-full font-semibold transition-all duration-300 ${isLogin
-                ? "bg-gradient-to-r from-blue-900 via-blue-800 to-purple-900 text-white"
-                : "bg-white text-blue-900 border border-blue-900"
-              }`}
-            onClick={() => setIsLogin(true)}
-          >
-            Login
-          </button>
-          <button
-            className={`flex-1 hover:cursor-pointer py-2 rounded-r-full font-semibold transition-all duration-300 ${!isLogin
-                ? "bg-gradient-to-r from-blue-900 via-blue-800  to-purple-900 text-white"
-                : "bg-white text-blue-900 border border-blue-900"
-              }`}
-            onClick={() => setIsLogin(false)}
-          >
-            Sign Up
-          </button>
-        </div> */}
+        )}        
 
 
         {/* Modern Toggle Button */}
