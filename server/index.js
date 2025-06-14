@@ -18,11 +18,13 @@ app.use(express.json());
 app.use(cookieParser());
 
 // MongoDB connection
-const MONGO_URI = 'mongodb://localhost:27017/carService'; 
+const MONGO_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.cnk94io.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+
 mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
     console.log('MongoDB connected successfully');
 }).catch(err => {
     console.error('MongoDB connection error:', err);
