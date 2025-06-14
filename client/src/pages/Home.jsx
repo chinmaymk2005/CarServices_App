@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, CheckCircle, Clock, Star } from "lucide-react";
 import { Wrench, Palette, Car, Sparkles } from "lucide-react"; // Importing icons
 
+
 export default function Home() {
 
   const navigate = useNavigate();
+
 
   const services = [
     {
