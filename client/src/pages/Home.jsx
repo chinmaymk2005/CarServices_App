@@ -60,8 +60,7 @@ export default function Home() {
 
 
   const handleBooking = () => {
-    if(!req.cookies.JwtToken) {
-      alert("Please login to book a service");
+    if(!req.cookies.JwtToken) {      
       navigate("/auth");
     }else {
       navigate("/booking");
