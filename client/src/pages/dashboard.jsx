@@ -12,7 +12,7 @@ const Dashboard = () => {
 
     const fetchUserData = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/check-auth`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
           method: 'GET',
           credentials: 'include',
         });
