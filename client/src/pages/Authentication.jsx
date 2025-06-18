@@ -18,7 +18,7 @@ const [checking, setChecking] = useState(true);
 
     const checkAuth = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/check-auth`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
           method: "GET",
           credentials: "include", // Include cookies in the request
         });        
@@ -49,7 +49,7 @@ const [checking, setChecking] = useState(true);
     // console.log("Login Details:", { Email, Password });
     //API call to login
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const [checking, setChecking] = useState(true);
     // console.log("Login Details:", { Email, Password });
     //API call to signup
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
