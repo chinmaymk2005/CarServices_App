@@ -60,12 +60,14 @@ export default function Home() {
 
 
   const handleBooking = () => {
-    if(!req.cookies.JwtToken) {      
-      navigate("/auth");
-    }else {
-      navigate("/booking");
-    }
-  };
+  const hasToken = document.cookie.includes('JwtToken=');
+  if (!hasToken) {
+    navigate("/auth");
+  } else {
+    navigate("/booking");
+  }
+};
+
 
   const handleServices = () => {
     navigate("/services");
