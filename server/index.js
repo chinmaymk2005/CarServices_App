@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // MongoDB connection
-const MONGO_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.cnk94io.mongodb.net/CarServicingCenterApp?retryWrites=true&w=majority&appName=Cluster0`;
+const MONGO_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.cnk94io.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=Cluster0`;
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
