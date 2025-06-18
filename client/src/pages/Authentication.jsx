@@ -18,6 +18,7 @@ const [checking, setChecking] = useState(true);
 
     const checkAuth = async () => {
       try {
+        // console.log("URL:", `${import.meta.env.VITE_API_URL}/api/auth/check-auth`);
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
           method: "GET",
           credentials: "include", // Include cookies in the request
@@ -49,6 +50,8 @@ const [checking, setChecking] = useState(true);
     // console.log("Login Details:", { Email, Password });
     //API call to login
     try {
+      console.log("URL:", `${import.meta.env.VITE_API_URL}/api/auth/login`);
+      console.log("Login Details:", { email, password });
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
@@ -72,7 +75,7 @@ const [checking, setChecking] = useState(true);
       }
       else {
         // Handle login failure
-        console.error("Login failed:", data);
+        console.log("Login failed:", data);
         alert(data.message || "Login failed. Please try again.");
       }
 
@@ -226,20 +229,12 @@ const [checking, setChecking] = useState(true);
               Sign Up
             </button>
           </form>
-        )}        
+        )}                
 
 
         {/* Modern Toggle Button */}
         <div className="relative">
-          <div className="flex bg-gray-100 rounded-2xl p-1 relative overflow-hidden">
-            {/* Sliding Background */}
-            {/* <div 
-                className={`absolute top-1 w-1/2 h-[calc(100%-8px)] rounded-xl transition-all duration-500 ease-out transform ${
-                  isLogin 
-                    ? 'translate-x-0 bg-gradient-to-r from-rose-400 to-pink-500 shadow-lg shadow-rose-200' 
-                    : 'translate-x-full bg-gradient-to-r from-emerald-400 to-cyan-500 shadow-lg shadow-emerald-200'
-                }`}
-              /> */}
+          <div className="flex bg-gray-100 rounded-2xl p-1 relative overflow-hidden">            
             <button
               type="button"
               onClick={() => setIsLogin(true)}

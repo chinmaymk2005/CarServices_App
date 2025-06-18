@@ -11,9 +11,9 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: 'https://car-services-app.vercel.app', // Adjust this to your frontend URL
-    credentials: true // Allow credentials (cookies, authorization headers, etc.)
-}))
+    origin: ['http://localhost:5173', 'https://car-services-app.vercel.app'],
+    credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -34,10 +34,21 @@ mongoose.connect(MONGO_URI, {
 app.use('/api/auth',authRoute)
 app.use('/api/protected',protectedRoute)
 
+// Log all incoming requests for debugging
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
 
 // Basic route
 app.get('/', (req, res) => {
     res.send('Car Servicing Centre API is running');
+});
+
+// Error handler for better debugging
+app.use((err, req, res, next) => {
+    console.error('Unhandled error:', err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
 });
 
 // Start server
