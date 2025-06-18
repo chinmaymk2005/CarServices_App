@@ -20,6 +20,8 @@ app.use(cookieParser());
 // MongoDB connection
 const MONGO_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.cnk94io.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=Cluster0`;
 
+console.log('Connecting to MongoDB with user:', process.env.MONGO_USER, 'and DB:', process.env.MONGO_DB);
+
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

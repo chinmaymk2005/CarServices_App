@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     console.log('Login attempt with email:', email,password);
-    
+
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'User does not exist!!' });
     
@@ -80,8 +80,8 @@ exports.login = async (req, res) => {
 };
 
 //Check Authentication
-exports.checkAuth = (req, res) => {
-  const token = req.cookies.JwtToken; 
+exports.checkAuth = async (req, res) => {
+  const token = await req.cookies.JwtToken; 
   console.log('Checking authentication with token:', token);
   
   if (!token) {
