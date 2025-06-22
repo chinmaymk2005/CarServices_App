@@ -21,7 +21,7 @@ const [checking, setChecking] = useState(true);
         // console.log("URL:", `${import.meta.env.VITE_API_URL}/api/auth/check-auth`);
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
           method: "GET",
-          credentials: "include", // Include cookies in the request
+          credentials: 'include', // Include cookies in the request
         });        
         
         if (res.status === 200) {
@@ -57,23 +57,22 @@ const [checking, setChecking] = useState(true);
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Include cookies in the request
+        credentials: 'include', // Include cookies in the request
         
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();            
-      
-      if(res.status === 200) {
+      const data = await res.json();
+
+      if (res.status === 200) {
         // Handle successful login
         console.log("Login successful:", data);
         alert("Login successful!");
         
         setTimeout(() => {
           navigate("/dashboard"); // Redirect to dashboard after login
-        },2000); // Redirect after a delay
-      }
-      else {
+        }, 2000); // Redirect after a delay
+      } else {
         // Handle login failure
         console.log("Login failed:", data);
         alert(data.message || "Login failed. Please try again.");

@@ -1,16 +1,20 @@
 const express = require('express');
+const app = express();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 dotenv.config();
+
+app.use(cookieParser());
+
 
 // Generate Token
 const generateToken = (id) => {
   return jwt.sign(
     { userId: id },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN }
+    process.env.JWT_SECRET    
   );
 };
 
@@ -64,6 +68,8 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid email or password' });
 
+    console.log('User found and password matched:', user._id);
+    
     const token = generateToken(user._id);
     
     res.cookie('JwtToken', token, {
@@ -81,7 +87,7 @@ exports.login = async (req, res) => {
 
 //Check Authentication
 exports.checkAuth = async (req, res) => {
-  const token = await req.cookies.JwtToken; 
+  const token = await req.cookies.JwtToken || req.headers['authorization']?.split(' ')[1];
   console.log('Checking authentication with token:', token);
   
   if (!token) {
