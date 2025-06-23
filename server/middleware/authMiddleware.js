@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
   try {
-    const token = req.cookies.JwtToken;
+    const token = localStorage.getItem('token');
 
     if (!token) {
       return res.status(401).json({ message: "Access Denied. No token provided." });
