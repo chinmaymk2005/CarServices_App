@@ -8,47 +8,59 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let isMounted = true;
+  let isMounted = true;
 
-    const fetchUserData = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
-          method: 'GET',
-          credentials: 'include',
-        });
+  const fetchUserData = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-        if (res.status !== 200) {
-          console.log("Not authenticated, redirecting to /auth");
-          navigate("/auth");
-        } else {
-          const data = await res.json();
-          console.log("Authenticated user:", data);
-          if (isMounted) setUser(data);
-        }
-      } catch (err) {
-        console.error("Auth check error:", err);
+      if (!token) {
+        console.log("No token found, redirecting to /auth");
         navigate("/auth");
-      } finally {
-        if (isMounted) setAuthChecked(true);
+        return;
       }
-    };
 
-    const handleResize = () => {
-      const isMobileScreen = window.innerWidth <= 768;
-      setIsMobile(isMobileScreen);
-    };
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    fetchUserData();
-    handleResize(); // set immediately on mount
-    window.addEventListener('resize', handleResize);
+      if (res.status !== 200) {
+        console.log("Not authenticated, redirecting to /auth");
+        navigate("/auth");
+      } else {
+        const data = await res.json();
+        console.log("Authenticated user:", data);
+        if (isMounted) setUser(data);
+      }
+    } catch (err) {
+      console.error("Auth check error:", err);
+      navigate("/auth");
+    } finally {
+      if (isMounted) setAuthChecked(true);
+    }
+  };
 
-    return () => {
-      isMounted = false;
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [navigate]);
+  const handleResize = () => {
+    const isMobileScreen = window.innerWidth <= 768;
+    setIsMobile(isMobileScreen);
+  };
 
-  if (!authChecked) return <div className="text-center p-4">Checking auth...</div>;
+  fetchUserData();
+  handleResize();
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    isMounted = false;
+    window.removeEventListener('resize', handleResize);
+  };
+}, [navigate]);
+
+if (!authChecked) return <div className="text-center p-4">Checking auth...</div>;
+if (!user) return <div className="text-center p-4">Loading user data...</div>;
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 flex items-center justify-center">

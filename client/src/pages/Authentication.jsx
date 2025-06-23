@@ -13,123 +13,120 @@ const Authentication = () => {
 const [checking, setChecking] = useState(true);
 
   // Check if user is already logged in
-  useEffect(() => {
-    
+ useEffect(() => {
+  const checkAuth = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const checkAuth = async () => {
-      try {
-        // console.log("URL:", `${import.meta.env.VITE_API_URL}/api/auth/check-auth`);
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
-          method: "GET",
-          credentials: 'include', // Include cookies in the request
-        });        
-        
-        if (res.status === 200) {
-          const data = await res.json();
-          console.log("User is authenticated:", data);
-          navigate("/dashboard"); // Redirect to dashboard if authenticated          
-        } else {
-          console.log("User is not authenticated");
-        }
-      } catch (error) {
-        console.error("Error checking authentication:", error);
-      }finally{
-        setChecking(false); // Set checking to false after the check is done
+      if (!token) {
+        console.log("No token found in localStorage");
+        setChecking(false);
+        return;
       }
-    }
 
-    if (checking) {
-      checkAuth();
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(res);
+      
+      if (res.status === 200) {
+        const data = await res.json();
+        console.log("User is authenticated:", data);  
+        navigate("/dashboard"); // ✅ redirect if authenticated
+      } else {
+        console.log("User is not authenticated");
+      }
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+    } finally {
+      setChecking(false);
     }
-  }, [checking]);
+  };
+
+  if (checking) {
+    checkAuth();
+  }
+}, [checking]);
 
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    
-    // console.log("Login Details:", { Email, Password });
-    //API call to login
-    try {
-      console.log("URL:", `${import.meta.env.VITE_API_URL}/api/auth/login`);
-      console.log("Login Details:", { email, password });
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: 'include', // Include cookies in the request
-        
-        body: JSON.stringify({ email, password }),
-      });
+  e.preventDefault();
 
-      const data = await res.json();
+  try {
+    console.log("Login Details:", { email, password });
 
-      if (res.status === 200) {
-        // Handle successful login
-        console.log("Login successful:", data);
-        alert("Login successful!");
-        
-        setTimeout(() => {
-          navigate("/dashboard"); // Redirect to dashboard after login
-        }, 2000); // Redirect after a delay
-      } else {
-        // Handle login failure
-        console.log("Login failed:", data);
-        alert(data.message || "Login failed. Please try again.");
-      }
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-    } catch (error) {
-      console.error("Login failed:", error);
-      alert("Login failed. Please try again.");
-      return;
+    const data = await res.json();
+
+    if (res.status === 200) {
+      console.log("Login successful:", data);
+      alert("Login successful!");
+
+      // ✅ Store token in localStorage
+      localStorage.setItem("token", data.token);
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
+    } else {
+      console.log("Login failed:", data);
+      alert(data.message || "Login failed. Please try again.");
     }
-
-  };
+  } catch (error) {
+    console.error("Login failed:", error);
+    alert("Login failed. Please try again.");
+  }
+};
 
   const handleSignup = async (e) => {
-    e.preventDefault();
-    
-    // console.log("Login Details:", { Email, Password });
-    //API call to signup
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Include cookies in the request
-        
-        body: JSON.stringify({ email, password,name, location }),
-      });
+  e.preventDefault();
 
-      const data = await res.json();      
-      console.log("signup Response:", data);
-      
-      if(res.status === 201) {
-        // Handle successful Signup
-        console.log("Signup successful:", data);
-        alert("Signup successful!");
-        
-        setTimeout(() => {
-          navigate("/dashboard"); // Redirect to dashboard after signup
-        },2000); // Redirect after a delay
-      }
-      else {
-        // Handle signup failure
-        console.error("signup failed:", data);
-        alert(data.message || "Login failed. Please try again.");
-      }
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, name, location }),
+    });
 
-    } catch (error) {
-      console.error("signup failed:", error);
-      alert("signup failed. Please try again.");
-      return;
+    const data = await res.json();
+    console.log("Signup Response:", data);
+
+    if (res.status === 201) {
+      console.log("Signup successful:", data);
+      alert("Signup successful!");
+
+      // ✅ Store token in localStorage
+      localStorage.setItem("token", data.token);
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
+    } else {
+      console.error("Signup failed:", data);
+      alert(data.message || "Signup failed. Please try again.");
     }
-  };
+  } catch (error) {
+    console.error("Signup failed:", error);
+    alert("Signup failed. Please try again.");
+  }
+};
 
-  useEffect(() => {
-    // You can add side effects here if needed
-  }, []);
+  if (checking) {
+    return <div className="text-center p-4">Checking authentication...</div>;
+  }
 
 
   return (

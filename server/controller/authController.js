@@ -2,12 +2,9 @@ const express = require('express');
 const app = express();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 dotenv.config();
-
-app.use(cookieParser());
 
 
 // Generate Token
@@ -23,9 +20,8 @@ exports.signup = async (req, res) => {
   const { name, email, password, location } = req.body;
 
   try {
-    // Check if user already exists
-    const existingUser = await User.find({ email });
-    if (existingUser.length > 0) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
@@ -34,70 +30,66 @@ exports.signup = async (req, res) => {
       name,
       email,
       password: hashpassword,
-      location
-    })
+      location,
+    });
 
+    // ✅ Generate token for the new user
     const token = generateToken(newUser._id);
-    
-    res.cookie('JwtToken', token, {
-      httponly: true,
-      secure: true,
-      sameSite: 'Lax',
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-    })
 
-    res.status(201).json({ message: 'Signup successful', user: newUser._id, Token: token });
-
+    res.status(201).json({
+      message: 'Signup successful',
+      user: newUser._id,
+      token, // lowercase 'token' for consistency
+    });
   } catch (err) {
+    console.error('Error during signup:', err.message);
     res.status(500).json({ message: 'Signup failed', error: err.message });
-    console.log('Error during signup:', err.message);
-
   }
-}
+};
+
 
 //Login Controller
 exports.login = async (req, res) => {
-
   try {
     const { email, password } = req.body;
-    console.log('Login attempt with email:', email,password);
+    console.log('Login attempt with email:', email);
 
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'User does not exist!!' });
-    
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid email or password' });
 
-    console.log('User found and password matched:', user._id);
-    
-    const token = generateToken(user._id);
-    
-    res.cookie('JwtToken', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'None',
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-    });
+    console.log('User authenticated:', user._id);
 
-    res.status(200).json({ message: 'Login successful', user: user._id,Token: token });
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      message: 'Login successful',
+      user: user._id,
+      token, // lowercase for frontend to access with localStorage
+    });
   } catch (err) {
     res.status(500).json({ message: 'Login failed', error: err.message });
   }
 };
 
+
 //Check Authentication
 exports.checkAuth = async (req, res) => {
-  const token = await req.cookies.JwtToken || req.headers['authorization']?.split(' ')[1];
-  console.log('Checking authentication with token:', token);
-  
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
+  const authHeader = req.headers['authorization'];
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Unauthorized - No token provided' });
   }
+
+  const token = authHeader.split(' ')[1];
+
   try {
-    // Verify the token using the secret key
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     res.status(200).json({ message: 'User is authenticated', user: decoded });
-  } catch (error) {
+  } catch (err) {
+    console.log('JWT verification failed:', err.message);
     res.status(403).json({ message: 'Invalid or expired token' });
   }
-};
+}
