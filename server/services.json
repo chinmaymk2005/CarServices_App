@@ -1,0 +1,82 @@
+[
+  {
+    "serviceName": "Individual Services",
+    "subServices": [
+      {
+        "name": "Exterior Polish",
+        "description": "Free Polymer Coating with Minor Scratch Removal, Smooth & Shine Treatment, Tire Polish, Basic Plastic & Rubber Polish",
+        "priceRange": "1500-2500 Rs."
+      },
+      {
+        "name": "Deep Interior Cleaning",
+        "description": "Free Foam Wash with Interior Black Plastic Polish, Alcohol Glass Wipe",
+        "priceRange": "1200-1800 Rs."
+      }
+    ]
+  },
+  {
+    "serviceName": "Combo Services",
+    "subServices": [
+      {
+        "name": "Combo Service",
+        "description": "Minor scratch removal, Smooth & Shine treatment, Tire polish, Interior plastic & rubber dressing, Alcohol-based glass cleaning, Paper mats. Combo-Only Benefits: Upgraded 2-layer detailed foam wash, Ceramic polymer coating, Premium 3M interior plastic polish.",
+        "priceRange": "2400-3800 Rs."
+      }
+    ]
+  },
+  {
+    "serviceName": "Interior Add-On Services",
+    "subServices": [
+      {
+        "name": "Leather Coating",
+        "description": "Nourish and protect leather seats and trims.",
+        "priceRange": "100-250 Rs."
+      },
+      {
+        "name": "Interior Steam Cleaning",
+        "description": "Interior Cleaning, AC Disinfection, Natural Odor Neutralizer",
+        "priceRange": "600-1000 Rs."
+      }
+    ]
+  },
+  {
+    "serviceName": "Exterior Add-On Services",
+    "subServices": [
+      {
+        "name": "Windshield Hard-Water Spot Removal",
+        "description": "Targeted cleaning of just the front windshield for better visibility and clarity.",
+        "priceRange": "200-300 Rs."
+      },
+      {
+        "name": "Total Water Hard-Spot Removal",
+        "description": "All Glasses & Windows, Window Corners & Edges, Logos & Badges",
+        "priceRange": "500-800 Rs."
+      },
+      {
+        "name": "Windshield Polishing",
+        "description": "Light Swirls & Scratch removal, Vision and Glare restoration",
+        "priceRange": "1200-1800 Rs."
+      },
+      {
+        "name": "Headlight Polishing",
+        "description": "Yellow oxidation removal with ceramic coating for clear and lasting finish.",
+        "priceRange": "1000-1400 Rs."
+      },
+      {
+        "name": "Quick Engine Detailing (No CNG/Old Cars)",
+        "description": "Dust and grease cleaning of top surface with black plastic coating",
+        "priceRange": "500-1000 Rs."
+      },
+      {
+        "name": "Tar/Damber Removal",
+        "description": "Using Professional-grade chemicals. Safe for Paint, Coating & PPF (Free Wash)",
+        "priceRange": "600-900 Rs."
+      },
+      {
+        "name": "Coating & PPF Maintenance",
+        "description": "Detail wash and gloss refresh for Ceramic, Graphene or PPF Coated cars.",
+        "priceRange": "1200-1800 Rs."
+      }
+    ]
+  }
+]

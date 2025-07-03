@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const authRoute = require('./routes/authRoutes');
 require('dotenv').config();
 const protectedRoute = require('./routes/protectedRoute');
+const getServices = require('./routes/getServices');
 
 const PORT = process.env.PORT || 5000;
 
@@ -16,6 +17,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+
 
 // MongoDB connection
 const MONGO_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.cnk94io.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=Cluster0`;
@@ -33,8 +35,9 @@ mongoose.connect(MONGO_URI, {
 });
 
 // Routes
-app.use('/api/auth',authRoute)
-app.use('/api/protected',protectedRoute)
+app.use('/api/getServices', getServices);
+app.use('/api/auth', authRoute);
+app.use('/api/protected', protectedRoute);
 
 // Log all incoming requests for debugging
 app.use((req, res, next) => {

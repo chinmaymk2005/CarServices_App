@@ -10,37 +10,34 @@ export default function Home() {
 
 
   const services = [
-    {
-      icon: <Wrench className="w-8 h-8" />,
-      title: "Car Servicing",
-      description: "Complete car maintenance and servicing",
-      price: "₹2,500 - ₹8,000",
-      duration: "2-4 hours"
+    {      
+      Img: "./Images/individual_service.jpg",
+      title: "Individual Service",
+      description: "Exterior polish and deep interior cleaning",
+      price: "₹1,500 - ₹2,500",      
     },
     {
-      icon: <Palette className="w-8 h-8" />,
-      title: "Scratch Removal",
-      description: "Professional scratch repair and touch-up",
-      price: "₹1,500 - ₹5,000",
-      duration: "1-3 hours"
+      Img: "./Images/combo_service_02.jpg",
+      title: "Combo Service",
+      description: "Polish + Deep Interior Cleaning",
+      price: "₹2,400- ₹3,800",
+      discount: "10% applied"
     },
     {
-      icon: <Car className="w-8 h-8" />,
-      title: "Car Painting",
-      description: "Full body painting and color restoration",
-      price: "₹15,000 - ₹50,000",
-      duration: "3-5 days"
+      Img: "./Images/interior_service.jpg",
+      title: "Interior Add-On Service",
+      description: "Leather coating and interior steam cleaning",
+      price: "₹100 - ₹1,000",      
     },
     {
-      icon: <Sparkles className="w-8 h-8" />,
-      title: "Detailing & Polish",
-      description: "Premium car detailing and shine restoration",
-      price: "₹3,000 - ₹12,000",
-      duration: "4-6 hours"
+      Img: "./Images/exterior_service_02.jpg",
+      title: "Exterior Add-On Service",
+      description: "Wind shield, headlight polishing and so on..",
+      price: "₹200 - ₹1,800",      
     }
-  ]; 
+  ];
 
-    const testimonials = [
+  const testimonials = [
     {
       name: "Rajesh Kumar",
       rating: 5,
@@ -60,13 +57,14 @@ export default function Home() {
 
 
   const handleBooking = () => {
-  const hasToken = document.cookie.includes('JwtToken=');
-  if (!hasToken) {
-    navigate("/auth");
-  } else {
-    navigate("/booking");
-  }
-};
+    const token = localStorage.getItem("token");
+    const hasToken = token && token !== "undefined" && token !== "null";
+    if (!hasToken) {
+      navigate("/auth");
+    } else {
+      navigate("/dashboard");
+    }
+  };
 
 
   const handleServices = () => {
@@ -75,29 +73,37 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
+      {/* Hero section */}
       <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 text-white min-h-screen flex items-center relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
-              Premium Car Care Services
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
+                Premium
+              </span>{" "}
+              <span className="text-orange-400 drop-shadow-lg">Car Care</span>{" "}
+              <span className="bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text text-transparent">
+                Services
+              </span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Professional car servicing, scratch removal, painting & detailing
+            <p className="text-xl md:text-2xl mb-8">
+              <span className="text-orange-300 font-semibold">Come visit our studio</span>{" "}
+              <span className="text-blue-200">to experience the</span>{" "}
+              <span className="text-orange-300 font-bold decoration-yellow-400">wonders of car detailing!</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={handleBooking}
-                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg"
               >
-                Book Now <ArrowRight className="w-5 h-5" />
+                <span className="tracking-wider">Book Now</span> <ArrowRight className="w-5 h-5" />
               </button>
               <button
                 onClick={handleServices}
-                className="border-2 border-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300"
+                className="border-2 border-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg"
               >
-                Our Services
+                <span className="tracking-wider">Our Services</span>
               </button>
             </div>
           </div>
@@ -105,19 +111,21 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
       </section>
 
-      {/* Services Preview */}
+      {/* Service card */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">Our Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
               <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                <div className="text-blue-600 mb-4">{service.icon}</div>
+                <div className="text-blue-600 mb-4">
+                  <img src={service.Img} alt={service.title} className="w-full h-auto rounded" />
+                </div>
                 <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
                 <p className="text-gray-600 mb-4">{service.description}</p>
                 <div className="text-sm text-gray-500">
-                  <p className="font-semibold text-green-600">{service.price}</p>
-                  <p>{service.duration}</p>
+                  <p className="font-semibold text-green-600">{service.price}</p>  <br />
+                  {service.discount && <p className="text-gray-500">Discount: {service.discount}</p>}
                 </div>
               </div>
             ))}
@@ -169,48 +177,48 @@ export default function Home() {
         </div>
       </section>
 
-       
-    <footer className="bg-gray-900 text-white py-12">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h3 className="text-2xl font-bold mb-4">CarCare Pro</h3>
-            <p className="text-gray-400">
-              Your trusted partner for premium car care services. Quality work, fair prices, satisfied customers.
-            </p>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Services</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>Car Servicing</li>
-              <li>Scratch Removal</li>
-              <li>Car Painting</li>
-              <li>Detailing & Polish</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li><button onClick={() => navigate('/')}>Home</button></li>
-              <li><button onClick={() => navigate('/services')}>Services</button></li>
-              <li><button onClick={() => navigate('/booking')}>Book Now</button></li>
-              <li><button onClick={() => navigate('/contactUs')}>Contact</button></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-            <div className="space-y-2 text-gray-400">
-              <p>123 Service Road, Mumbai</p>
-              <p>+91 98765 43210</p>
-              <p>info@cargarageservice.com</p>
+
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-2xl font-bold mb-4">CarCare Pro</h3>
+              <p className="text-gray-400">
+                Your trusted partner for premium car care services. Quality work, fair prices, satisfied customers.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Services</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>Car Servicing</li>
+                <li>Scratch Removal</li>
+                <li>Car Painting</li>
+                <li>Detailing & Polish</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><button onClick={() => navigate('/')}>Home</button></li>
+                <li><button onClick={() => navigate('/services')}>Services</button></li>
+                <li><button onClick={() => navigate('/booking')}>Book Now</button></li>
+                <li><button onClick={() => navigate('/contactUs')}>Contact</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+              <div className="space-y-2 text-gray-400">
+                <p>123 Service Road, Mumbai</p>
+                <p>+91 98765 43210</p>
+                <p>info@cargarageservice.com</p>
+              </div>
             </div>
           </div>
+          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 CarCare Pro. All rights reserved.</p>
+          </div>
         </div>
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2025 CarCare Pro. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+      </footer>
 
     </div>
 

@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const userService = require('../models/userService');
 dotenv.config();
 
 
@@ -11,7 +12,7 @@ dotenv.config();
 const generateToken = (id) => {
   return jwt.sign(
     { userId: id },
-    process.env.JWT_SECRET    
+    process.env.JWT_SECRET
   );
 };
 
@@ -32,6 +33,16 @@ exports.signup = async (req, res) => {
       password: hashpassword,
       location,
     });
+
+    // ✅ Create a Service document linked to this user
+    const Service = await userService.create({
+      userId: newUser._id,
+      services: [],
+    });
+
+    // ✅ Update user with serviceId
+    newUser.serviceId = Service._id;
+    await newUser.save();
 
     // ✅ Generate token for the new user
     const token = generateToken(newUser._id);
@@ -66,7 +77,7 @@ exports.login = async (req, res) => {
 
     res.status(200).json({
       message: 'Login successful',
-      user: user._id,
+      user: user.name,
       token, // lowercase for frontend to access with localStorage
     });
   } catch (err) {
@@ -87,7 +98,9 @@ exports.checkAuth = async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    res.status(200).json({ message: 'User is authenticated', user: decoded });
+    const user = await User.findById(decoded.userId);
+    const userName = user.name;
+    res.status(200).json({ message: 'User is authenticated', user: decoded, Name: userName });
   } catch (err) {
     console.log('JWT verification failed:', err.message);
     res.status(403).json({ message: 'Invalid or expired token' });

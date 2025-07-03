@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../config';
+
 
 const Dashboard = () => {
   const [authChecked, setAuthChecked] = useState(false);
@@ -20,7 +22,7 @@ const Dashboard = () => {
         return;
       }
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
+      const res = await fetch(`${API_URL}/api/auth/check-auth`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -58,6 +60,7 @@ const Dashboard = () => {
   };
 }, [navigate]);
 
+
 if (!authChecked) return <div className="text-center p-4">Checking auth...</div>;
 if (!user) return <div className="text-center p-4">Loading user data...</div>;
 
@@ -71,8 +74,7 @@ if (!user) return <div className="text-center p-4">Loading user data...</div>;
 
         {user && (
           <div className="text-center">
-            <p className="text-lg">Hello, <span className="font-semibold">{user.name}</span>!</p>
-            <p className="text-sm text-gray-600">{user.email}</p>
+            <p className="text-lg">Hello, <span className="font-semibold">{user.Name}</span>!</p>            
           </div>
         )}
 

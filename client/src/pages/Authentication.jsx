@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../config";
 
 
 const Authentication = () => {
@@ -24,7 +25,7 @@ const [checking, setChecking] = useState(true);
         return;
       }
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
+      const res = await fetch(`${API_URL}/api/auth/check-auth`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,13 +54,14 @@ const [checking, setChecking] = useState(true);
 }, [checking]);
 
 
+  // Handle Login
   const handleLogin = async (e) => {
   e.preventDefault();
 
   try {
     console.log("Login Details:", { email, password });
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,11 +91,12 @@ const [checking, setChecking] = useState(true);
   }
 };
 
+// Handle Signup
   const handleSignup = async (e) => {
   e.preventDefault();
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
+    const res = await fetch(`${API_URL}/api/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
