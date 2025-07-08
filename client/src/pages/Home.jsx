@@ -199,10 +199,10 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><button onClick={() => navigate('/')}>Home</button></li>
-                <li><button onClick={() => navigate('/services')}>Services</button></li>
-                <li><button onClick={() => navigate('/booking')}>Book Now</button></li>
-                <li><button onClick={() => navigate('/contactUs')}>Contact</button></li>
+                <li><button className='cursor-pointer' onClick={() => navigate('/')}>Home</button></li>
+                <li><button className='cursor-pointer' onClick={() => navigate('/services')}>Services</button></li>
+                <li><button className='cursor-pointer' onClick={() => navigate('/booking')}>Book Now</button></li>
+                <li><button className='cursor-pointer' onClick={() => navigate('/contactUs')}>Contact</button></li>
               </ul>
             </div>
             <div>

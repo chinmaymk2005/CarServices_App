@@ -9,10 +9,7 @@ router.post('/signup',signup);
 
 router.post('/login',login);
 
-// router.post('/logout', (req, res) => {
-//     res.clearCookie('JwtToken');
-//     res.status(200).json({ message: 'Logged out successfully' });
-// });
+
 
 
 router.get('/check-auth',checkAuth);
