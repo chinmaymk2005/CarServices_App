@@ -8,6 +8,7 @@ require('dotenv').config();
 const protectedRoute = require('./routes/protectedRoute');
 const getServices = require('./routes/getServices');
 const getBookService = require('./routes/getBookService');
+const bookService = require('./routes/bookService');
 
 const PORT = process.env.PORT || 5000;
 
@@ -40,6 +41,7 @@ app.use('/api/getServices', getServices);
 app.use('/api/auth', authRoute);
 app.use('/api/protected', protectedRoute);
 app.use('/api/getBookService', getBookService);
+app.use('/api/bookService', bookService);
 
 // Log all incoming requests for debugging
 app.use((req, res, next) => {

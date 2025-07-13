@@ -1,4 +1,4 @@
-;'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import API_URL from '../config';
@@ -7,22 +7,22 @@ import Navbar from '../components/Navbar';
 const Booking = () => {
   const { id, subServiceName } = useParams();
   const [subService, setSubService] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchServiceById = async () => {
       try {
         const response = await fetch(`${API_URL}/api/getBookService/${id}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const service = await response.json();
+        if (!response.ok) throw new Error('Network response was not ok');
 
+        const service = await response.json();
         const foundSubService = service.subServices.find(
           s => s.name === decodeURIComponent(subServiceName)
         );
-
-        console.log("Subservice fetched: ", foundSubService);
         setSubService(foundSubService);
       } catch (error) {
         console.error('Error fetching service:', error);
@@ -31,6 +31,38 @@ const Booking = () => {
 
     fetchServiceById();
   }, [id, subServiceName]);
+
+  const handleBookingConfirm = async () => {
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You must be logged in to book a service.');
+      navigate('/auth')
+      return;
+    }
+    try {
+      
+      const response = await fetch(`${API_URL}/api/bookService`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user: { name, email, phone },
+          serviceId: id,
+          subServiceName: subService.name,
+          price: subService.priceRange
+        })
+      });
+
+      if (response.ok) {
+        alert('Booking confirmed! The owner has been notified.');
+        navigate('/services');
+      } else {
+        alert('Failed to confirm booking. Please try again.');
+      }
+    } catch (error) {
+      console.error('Booking error:', error);
+    }
+  };
 
   return (
     <>
@@ -69,27 +101,65 @@ const Booking = () => {
 
             {/* Confirmation Section */}
             <div className="bg-white border-2 border-gray-200 rounded-xl p-6 text-center shadow-lg">
-              <p className="text-lg mb-6 text-gray-800 font-medium">
-                You're just 1 click away from your booking. Are you sure you want to proceed?
-              </p>
+              {!showForm ? (
+                <>
+                  <p className="text-lg mb-6 text-gray-800 font-medium">
+                    You're just 1 click away from your booking. Are you sure you want to proceed?
+                  </p>
 
-              <div className="flex gap-4 justify-center flex-wrap">
-                <button
-                  className="cursor-pointer bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 min-w-[100px]"
-                  onClick={() => navigate('/services')}
-                >
-                  No
-                </button>
-                <button
-                  className="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 min-w-[100px]"
-                  onClick={() => {
-                    // You can handle booking logic here later
-                    console.log('Booking confirmed!');
-                  }}
-                >
-                  Yes
-                </button>
-              </div>
+                  <div className="flex gap-4 justify-center flex-wrap">
+                    <button
+                      className="cursor-pointer bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 min-w-[100px]"
+                      onClick={() => navigate('/services')}
+                    >
+                      No
+                    </button>
+                    <button
+                      className="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 min-w-[100px]"
+                      onClick={() => setShowForm(true)}
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="text-lg mb-6 text-gray-800 font-medium">
+                    Great! Just fill in your details to confirm your booking.
+                  </p>
+
+                  <div className="space-y-4 mb-6">
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full border border-gray-300 rounded p-3"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Your Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full border border-gray-300 rounded p-3"
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Your Phone Number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full border border-gray-300 rounded p-3"
+                    />
+                  </div>
+
+                  <button
+                    onClick={handleBookingConfirm}
+                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
+                  >
+                    Confirm Booking
+                  </button>
+                </>
+              )}
             </div>
           </div>
         ) : (
