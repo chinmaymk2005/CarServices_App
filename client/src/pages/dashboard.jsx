@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_URL from '../config';
+import Navbar from '../components/Navbar';
 
 
 const Dashboard = () => {
@@ -66,22 +67,8 @@ if (!user) return <div className="text-center p-4">Loading user data...</div>;
 
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-xl">
-        <h1 className="text-2xl font-bold mb-4 text-center">
-          Welcome to Dashboard
-        </h1>
-
-        {user && (
-          <div className="text-center">
-            <p className="text-lg">Hello, <span className="font-semibold">{user.Name}</span>!</p>            
-          </div>
-        )}
-
-        <div className="mt-6 text-center text-blue-600">
-          {isMobile ? "You are on a mobile view 📱" : "You're viewing this on a larger screen 💻"}
-        </div>
-      </div>
+    <div className={`min-h-screen ${isMobile ? 'bg-gray-200' : 'bg-white'}`}>
+      <Navbar user={user} isMobile={isMobile} />
     </div>
   );
 };

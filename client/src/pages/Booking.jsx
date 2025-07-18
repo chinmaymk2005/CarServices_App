@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 const Booking = () => {
   const { id, subServiceName } = useParams();
   const [subService, setSubService] = useState(null);
+  const [service, setService] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,10 +21,13 @@ const Booking = () => {
         if (!response.ok) throw new Error('Network response was not ok');
 
         const service = await response.json();
+        console.log('Fetched service:', service.serviceName);
+        
         const foundSubService = service.subServices.find(
           s => s.name === decodeURIComponent(subServiceName)
         );
         setSubService(foundSubService);
+        setService(service.serviceName);
       } catch (error) {
         console.error('Error fetching service:', error);
       }
@@ -48,6 +52,7 @@ const Booking = () => {
         body: JSON.stringify({
           user: { name, email, phone },
           serviceId: id,
+          serviceName: service,
           subServiceName: subService.name,
           price: subService.priceRange
         })
@@ -154,9 +159,9 @@ const Booking = () => {
 
                   <button
                     onClick={handleBookingConfirm}
-                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
+                    className="w-full cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
                   >
-                    Confirm Booking
+                    Confirm Booking !!
                   </button>
                 </>
               )}
