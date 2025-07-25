@@ -1,20 +1,45 @@
 'use client';
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle, Clock, Star } from "lucide-react";
-import { Wrench, Palette, Car, Sparkles } from "lucide-react"; // Importing icons
+import { ArrowRight, Star, Award } from "lucide-react";
+import Navbar from "../components/Navbar";
+import { FaHome, FaClock, FaCarSide, FaInstagram } from "react-icons/fa";
 
 
-export default function Home() {
+export function Home() {
 
   const navigate = useNavigate();
 
 
+
+  const features = [
+    {
+      icon: <FaHome className="text-blue-600 text-4xl mb-4" />,
+      title: "Doorstep Service",
+      desc: "Get an appointment and relax at home, we will come to your place."
+    },
+    {
+      icon: <FaClock className="text-blue-600 text-4xl mb-4" />,
+      title: "Quick & Hassle-free",
+      desc: "Hassle-free 15 minute work. 100% safe, branded & premium PH neutral products."
+    },
+    {
+      icon: <FaCarSide className="text-blue-600 text-4xl mb-4" />,
+      title: "Optional Services",
+      desc: "Dashboard and other plastic parts cleaning available upon request with an additional cost."
+    },
+    {
+      icon: <FaInstagram className="text-blue-600 text-4xl mb-4" />,
+      title: "Get Featured",
+      desc: "Get the chance to feature Before and After photos of your car on our Instagram page."
+    }
+  ];
+
   const services = [
-    {      
+    {
       Img: "./Images/individual_service.jpg",
       title: "Individual Service",
       description: "Exterior polish and deep interior cleaning",
-      price: "₹1,500 - ₹2,500",      
+      price: "₹1,500 - ₹2,500",
     },
     {
       Img: "./Images/combo_service_02.jpg",
@@ -27,13 +52,13 @@ export default function Home() {
       Img: "./Images/interior_service.jpg",
       title: "Interior Add-On Service",
       description: "Leather coating and interior steam cleaning",
-      price: "₹100 - ₹1,000",      
+      price: "₹100 - ₹1,000",
     },
     {
       Img: "./Images/exterior_service_02.jpg",
       title: "Exterior Add-On Service",
       description: "Wind shield, headlight polishing and so on..",
-      price: "₹200 - ₹1,800",      
+      price: "₹200 - ₹1,800",
     }
   ];
 
@@ -55,6 +80,17 @@ export default function Home() {
     }
   ];
 
+  const videos = [
+    {
+      src: "/videos/video_01.mp4",
+      title: "Ceramic Coating + Interior Detailing"
+    },
+    {
+      src: "/videos/video_02.mp4",
+      title: "Graphene Coating"
+    }
+  ];
+
 
   const handleBooking = () => {
     const token = localStorage.getItem("token");
@@ -71,8 +107,10 @@ export default function Home() {
     navigate("/services");
   };
 
+
   return (
     <div className="min-h-screen">
+      <Navbar />
       {/* Hero section */}
       <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 text-white min-h-screen flex items-center relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -111,6 +149,64 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
       </section>
 
+      {/* Our work */}
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Fancy Title */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center mb-4">
+              <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mr-4"></div>
+              <Award className="w-8 h-8 text-blue-600 mx-2" />
+              <div className="w-12 h-1 bg-gradient-to-r from-purple-600 to-blue-500 rounded-full ml-4"></div>
+            </div>
+
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 relative">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+                Our Work
+              </span>
+              <div className="absolute -top-2 -right-2 animate-pulse">
+                <Star className="w-6 h-6 text-yellow-400 fill-current" />
+              </div>
+            </h2>
+
+            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mb-4"></div>
+
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover our premium car service excellence 
+            </p>
+          </div>
+
+          {/* ======= Videos Section ======= */}
+          <section className="bg-gray-100 py-7 px-4">
+            <div className="max-w-250 mx-auto">
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {videos.map((video, index) => (
+                  <div
+                    key={index}
+                    className="group relative overflow-hidden rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2"
+                  >
+                    <div className="aspect-video bg-gray-900 relative">
+                      <video
+                        src={video.src}
+                        controls
+                        className="w-full h-full object-fit rounded-2xl"
+                      ></video>
+                      {/* Overlay title */}
+                      <div className="absolute bottom-0.5 left-3 text-white px-3 py-1 rounded-md text-sm">
+                        {video.title}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+
+
       {/* Service card */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
@@ -134,25 +230,25 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">Why Choose Us?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-3">Quality Guarantee</h3>
-              <p className="text-gray-600">We stand behind our work with a satisfaction guarantee</p>
-            </div>
-            <div className="text-center">
-              <Clock className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-3">Quick Service</h3>
-              <p className="text-gray-600">Fast turnaround times without compromising quality</p>
-            </div>
-            <div className="text-center">
-              <Star className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-3">Expert Technicians</h3>
-              <p className="text-gray-600">Skilled professionals with years of experience</p>
-            </div>
+      <section className="bg-zinc-200 py-12">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-10">
+            Why <span className="text-blue-600">Choose Us?</span>
+          </h2>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {features.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition-shadow flex flex-col items-center text-center"
+              >
+                {item.icon}
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600 text-base">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -182,7 +278,7 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-2xl font-bold mb-4">CarCare Pro</h3>
+              <h3 className="text-2xl font-bold mb-4">YourCarStylist</h3>
               <p className="text-gray-400">
                 Your trusted partner for premium car care services. Quality work, fair prices, satisfied customers.
               </p>
@@ -197,29 +293,84 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><button className='cursor-pointer' onClick={() => navigate('/')}>Home</button></li>
-                <li><button className='cursor-pointer' onClick={() => navigate('/services')}>Services</button></li>
-                <li><button className='cursor-pointer' onClick={() => navigate('/booking')}>Book Now</button></li>
-                <li><button className='cursor-pointer' onClick={() => navigate('/contactUs')}>Contact</button></li>
+              <h4 className="text-lg font-semibold mb-4 text-center">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400 text-center">
+                <li>
+                  <a
+                    href="https://instagram.com/yourcarstylist"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <img
+                      src="/Images/instagram.png"
+                      alt="Instagram"
+                      className="w-10 h-10 hover:scale-110 transition-transform duration-300"
+                    />
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="https://facebook.com/yourcarstylist"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <img
+                      src="/Images/facebook.png"
+                      alt="Facebook"
+                      className="w-10 h-10 hover:scale-110 transition-transform duration-300"
+                    />
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="https://wa.me/message/NS2A54OU2UE2K1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <img
+                      src="/Images/whatsapp.png"
+                      alt="WhatsApp"
+                      className="w-10 h-10 hover:scale-110 transition-transform duration-300"
+                    />
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="https://youtube.com/@yourcarstylist"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <img
+                      src="/Images/youtube.png"
+                      alt="YouTube"
+                      className="w-10 h-10 hover:scale-110 transition-transform duration-300"
+                    />
+                  </a>
+                </li>
+
               </ul>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <div className="space-y-2 text-gray-400">
-                <p>123 Service Road, Mumbai</p>
-                <p>+91 98765 43210</p>
-                <p>info@cargarageservice.com</p>
+                <p className="border-b border-gray-500 pb-2">Shop no. 1 Your Car Stylist, Near KM Agrawal College, Opposite Dr. Babasaheb Ambedkar Bhavan, Padgha road, Kalyan(W) 421301.</p>
+
+                <p className="border-b border-gray-500 pb-2">+91 8779638922</p>
               </div>
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 CarCare Pro. All rights reserved.</p>
+            <p>&copy; 2025 YourCarStylist. All rights reserved.</p>
           </div>
         </div>
       </footer>
-
     </div>
 
   );

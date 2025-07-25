@@ -48,9 +48,13 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center relative z-50">
       {/* Brand */}
-      <Link to="/" className="text-2xl font-bold text-blue-700">
-        CarCare
-      </Link>
+      <div className="flex items-center">
+        <img src="/Images/logo.jpg" alt="YourCarStylist Logo" className="h-10 w-auto mr-4 border rounded-md" />
+        <Link to="/" className="text-2xl font-bold text-blue-700">
+          YourCarStylist
+        </Link>
+      </div>
+
 
       {/* Desktop Nav */}
       <div className="hidden md:flex space-x-6 items-center">
@@ -63,7 +67,7 @@ const Navbar = () => {
         <Link to="/about" className="text-blue-700 hover:text-orange-500 transition hover:border-b-2">
           About
         </Link>
-        <Link to="/contact" className="text-blue-700 hover:text-orange-500 transition hover:border-b-2">
+        <Link to="/ContactUs" className="text-blue-700 hover:text-orange-500 transition hover:border-b-2">
           Contact
         </Link>
         <button

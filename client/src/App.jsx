@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import { Home } from "./pages/Home";
 import Auth from "./pages/Authentication";  
 import Service from "./pages/services";
-import Dashboard from "./pages/dashboard";
 import Booking from "./pages/Booking"; 
+import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
+
 
 function App() {
   return (
@@ -11,10 +13,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/services" element={<Service />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/services/booking/:id/:subServiceName" element={<Booking />} />
-        {/* Add other routes like /dashboard, /booking etc. */}
+        <Route path="/services" element={<Service />} />        
+        <Route path="/services/booking/:id/:subServiceName" element={<Booking />} />   
+        <Route path="/about" element={<About />} />
+        <Route path="/contactUs" element={<ContactUs />} />  
       </Routes>
     </BrowserRouter>
   );

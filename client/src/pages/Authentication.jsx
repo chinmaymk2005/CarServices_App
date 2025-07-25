@@ -79,7 +79,7 @@ const [checking, setChecking] = useState(true);
       localStorage.setItem("token", data.token);
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/services");
       }, 2000);
     } else {
       console.log("Login failed:", data);

@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     
     const mailOptions = {
         from: 'Car Booking Bot <chinmaymk2005@gmail.com>',
-        to: 'chinmaymk13@gmail.com',
+        to: 'chinmaymk13@gmail.com', // owner email
         replyTo: user.email,
         subject: 'New Booking Received!',
         text: `
