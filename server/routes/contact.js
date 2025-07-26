@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
     // Email options
     const mailOptions = {
       from: email, // sender (user's email)
-      to: "chinmaymk13@gmail.com", // owner email
+      to: "chinmaymk13@gmail.com", // owner email urcarstylist@gmail.com
       subject: `New Contact Message from ${name}`,
       text: message,
       replyTo: email,

@@ -71,16 +71,20 @@ const Navbar = () => {
           Contact
         </Link>
         <button
-          className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition"
+          className="bg-red-600 text-white cursor-pointer px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition"
           onClick={() => {
             user ? handleLogout() : navigate('/auth');
-          }}
-        >
-          {user ? 'Logout' : 'Login'}
-        </button>
-      </div>
+            }}
+            style={{
+            backgroundColor: user ? '#dc2626' : '#22c55e', // Tailwind red-600 or green-500
+            color: 'white'
+            }}
+          >
+            {user ? 'Logout' : 'Login'}
+          </button>
+          </div>
 
-      {/* Mobile Toggle */}
+          {/* Mobile Toggle */}
       <div className="md:hidden">
         <button onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={26} /> : <Menu size={26} />}

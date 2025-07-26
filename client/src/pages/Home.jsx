@@ -9,6 +9,33 @@ export function Home() {
 
   const navigate = useNavigate();
 
+  const testimonialsData = [
+    {
+      id: 1,
+      name: 'Prasad Jadhav',
+      summary: "Chaitanya truly is a car stylist! After a 6200km Leh-Ladakh trip, my car needed serious detailing. Chaitanya professionally guided me through the process, showing rather than just telling. He advised only what was needed, unlike others pushing unnecessary services. Highly satisfied and recommend 'Your Car Stylist' to anyone who loves their vehicle!",
+    },
+    {
+      id: 2,
+      name: 'Kalpesh Keluskar',
+      summary: "Huge thanks to Your Car Stylist for detailing my MG Hector and BMW G310 GS. They removed dog nail scratches from my car's bonnet, making it look brand new! My bike, after long rides, had dirt regular washing couldn't touch. Now, with exterior polymer coating, all parts are restored and it looks fresh and new. For premium or luxury bikes, this is the place to go!",
+    },
+    {
+      id: 3,
+      name: 'Sohan Chaudhari',
+      summary: "Best experience with Your Car Stylist. Chaitanya Nawale (owner) did a professional 10H ceramic coating on my Hunter 350. Great behavior and understanding. Definitely visit them!",
+    },
+    {
+      id: 4,
+      name: 'Amol Wable',
+      summary: "Just had an amazing experience at #yourcarstylist! My 8-year-old car, which was quite dirty, received a complete interior and exterior makeover and now looks almost brand new. I truly appreciated their sincerity and attention to detail. The owner is extremely polite, and despite the high quality, they charge a very minimal amount. Highly recommend for honest, high-quality car care!",
+    },
+    {
+      id: 5,
+      name: 'Yogesh Bichkar',
+      summary: "An amazing experience with 'Your Car Stylist'! Their dedication, honesty, and hard work truly stand out. My car's cleaning was superb, leaving it fresh and welcoming. Special shoutout to Mr. Chaitanya, a genuine person who loves his work and even showed thoughtful personal care. Highly recommend for their extraordinary service!",
+    },
+  ];
 
 
   const features = [
@@ -172,7 +199,7 @@ export function Home() {
             <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mb-4"></div>
 
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover our premium car service excellence 
+              Discover our premium car service excellence
             </p>
           </div>
 
@@ -254,24 +281,59 @@ export function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">What Our Customers Say</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 font-inter">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Title */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              What Our <span className="text-blue-600">Customers</span> Say
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              Hear from our satisfied clients about their experience with Your Car Stylist.
+            </p>
+          </div>
+
+          {/* Grid container for testimonials.
+            Uses responsive grid classes to display testimonials in columns:
+            1 column on small screens, 2 on medium, 3 on large. */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Map over the testimonialsData array to render each testimonial card */}
+            {testimonialsData.map((testimonial) => (
+              // Individual testimonial card.
+              // Styled with white background, padding, rounded corners, and shadow.
+              <div
+                key={testimonial.id}
+                className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between"
+              >
+                {/* Testimonial Quote/Summary */}
+                <p className="text-lg text-gray-700 leading-relaxed mb-6 italic">
+                  "{testimonial.summary}"
+                </p>
+
+                {/* Author Information */}
+                <div className="flex items-center mt-auto">
+                  {/* Placeholder for an avatar, if you want to add images later.
+                    For now, it's a simple circle. */}
+                  <div className="flex-shrink-0">
+                    <span className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-indigo-500 text-white text-xl font-semibold">
+                      {testimonial.name.charAt(0)} {/* Displays first letter of the name */}
+                    </span>
+                  </div>
+                  <div className="ml-4">
+                    <div className="text-xl font-semibold text-gray-900">
+                      {testimonial.name}
+                    </div>
+                    {/* You can add a role here if needed, e.g., "Satisfied Customer" */}
+                    {/* <div className="text-sm text-gray-500">
+                    Satisfied Customer
+                  </div> */}
+                  </div>
                 </div>
-                <p className="text-gray-600 mb-4">"{testimonial.comment}"</p>
-                <p className="font-semibold text-gray-800">- {testimonial.name}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
 
       <footer className="bg-gray-900 text-white py-12">
