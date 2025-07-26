@@ -10,6 +10,20 @@ const getServices = require('./routes/getServices');
 const getBookService = require('./routes/getBookService');
 const bookService = require('./routes/bookService');
 const contactRoute = require('./routes/contact');
+const rateLimit = require('express-rate-limit');
+
+
+// Create a limiter for contact route
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 6, // limit each IP to 6 requests per hour
+  message: {
+    status: 429,
+    message: "Too many requests, please try again later.",
+  },
+});
+
+app.use('/api/contact', contactLimiter);
 
 
 const PORT = process.env.PORT || 5000;
