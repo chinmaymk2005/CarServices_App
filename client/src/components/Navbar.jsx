@@ -41,6 +41,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userName');
     setUser(null);
     navigate('/');
   };
@@ -109,8 +110,11 @@ const Navbar = () => {
           <button
             className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition"
             onClick={() => {
-              setMenuOpen(false);
-              user ? handleLogout() : navigate('/auth');
+            user ? handleLogout() : navigate('/auth');
+            }}
+            style={{
+            backgroundColor: user ? '#dc2626' : '#22c55e', // Tailwind red-600 or green-500
+            color: 'white'
             }}
           >
             {user ? 'Logout' : 'Login'}

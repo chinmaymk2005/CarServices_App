@@ -73,11 +73,13 @@ const [checking, setChecking] = useState(true);
 
     if (res.status === 200) {
       console.log("Login successful:", data);
+      const firstName = data.user.split(" ")[0];
       alert("Login successful!");
 
       // ✅ Store token in localStorage
-      localStorage.setItem("token", data.token);
-
+      localStorage.setItem("token", data.token);      
+      localStorage.setItem("userName", firstName);
+      // <WelcomeBanner firstName={firstName} />
       setTimeout(() => {
         navigate("/services");
       }, 2000);

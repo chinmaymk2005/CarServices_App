@@ -5,6 +5,8 @@ import MainServicesCard from '../components/mainServicesCard'
 import API_URL from '../config'
 import { useNavigate } from 'react-router'
 import VideoSection from '../components/videoSection'
+import WelcomeBanner from '../components/WelcomeBanner'
+
 
 const services = () => {
   const [services, setServices] = useState([])
@@ -27,7 +29,9 @@ const services = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar /> 
+
+      <WelcomeBanner firstName={localStorage.getItem('userName')} />
 
       {/* Hero section */}
       <div className="px-4 py-4 text-center text-sm md:text-base">
