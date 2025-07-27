@@ -37,7 +37,7 @@ const [checking, setChecking] = useState(true);
       if (res.status === 200) {
         const data = await res.json();
         console.log("User is authenticated:", data);  
-        navigate("/dashboard"); // ✅ redirect if authenticated
+        navigate("/services"); // ✅ redirect if authenticated
       } else {
         console.log("User is not authenticated");
       }
@@ -113,11 +113,13 @@ const [checking, setChecking] = useState(true);
       console.log("Signup successful:", data);
       alert("Signup successful!");
 
+
       // ✅ Store token in localStorage
-      localStorage.setItem("token", data.token);
+      // localStorage.setItem("token", data.token);
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/");
+        alert("You can now login with your credentials.");
       }, 2000);
     } else {
       console.error("Signup failed:", data);
