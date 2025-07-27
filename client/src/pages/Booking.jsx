@@ -57,7 +57,8 @@ const Booking = () => {
           price: subService.priceRange
         })
       });
-
+      console.log("Came from BE:", response);
+      
       if (response.ok) {
         alert('Booking confirmed! The owner has been notified.');
         navigate('/services');

@@ -21,14 +21,14 @@ router.post("/", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "chinmaymk2005@gmail.com", // your Gmail
+        user: process.env.EMAIL_USER, // your Gmail
         pass: process.env.EMAIL_PASS, // get this from Google App Passwords
       },
     });
 
     // Email options
     const mailOptions = {
-      from: email, // sender (user's email)
+      from: '"Car Booking Bot" <yourcarstylist2023@gmail.com>', // sender (user's email)
       to: "chinmaymk13@gmail.com", // owner email urcarstylist@gmail.com
       subject: `New Contact Message from ${name}`,
       text: message,

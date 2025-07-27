@@ -2,22 +2,22 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const userService = require('../models/userService'); // Assuming you have a userService model
-const User = require('../models/User'); 
+const User = require('../models/User');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'chinmaymk2005@gmail.com',
-        pass: 'kmskzyjljxmfgpyi' // use app password, not normal password!
+        user: process.env.EMAIL_USER, // your Gmail
+        pass: process.env.EMAIL_PASS // use app password, not normal password!
     }
 });
 
 router.post('/', async (req, res) => {
     const { user, serviceId, subServiceName, price, serviceName } = req.body;
-    
-    
+
+
     const mailOptions = {
-        from: 'Car Booking Bot <chinmaymk2005@gmail.com>',
+        from: '"Car Booking Bot" <yourcarstylist2023@gmail.com>',
         to: 'chinmaymk13@gmail.com', // owner email - urcarstylist@gmail.com
         replyTo: user.email,
         subject: 'New Booking Received!',
@@ -39,7 +39,7 @@ Price: ${price}
         const userId = await User.findOne({ email: user.email });
         const userServiceDoc = await userService.findOne({ userId: userId._id });
         console.log("User Service Document:", userServiceDoc);
-        
+
         // Check if the service already exists
         const existingService = userServiceDoc.services.find(s => s.serviceName === serviceName);
         if (existingService) {
