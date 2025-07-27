@@ -11,9 +11,15 @@ import WelcomeBanner from '../components/WelcomeBanner'
 const services = () => {
   const [services, setServices] = useState([])
   const navigate = useNavigate()
+  const [user, setUser] = useState(false)
 
   // Fetch services from the server when the component mounts
   useEffect(() => {
+
+    const token = localStorage.getItem('token')
+    if (token) {
+      setUser(true)
+    }
     const fetchServices = async () => {
       try {
         const response = await fetch(`${API_URL}/api/getServices`)
@@ -29,9 +35,12 @@ const services = () => {
 
   return (
     <div>
-      <Navbar /> 
+      <Navbar />
 
-      <WelcomeBanner firstName={localStorage.getItem('userName')} />
+      {
+        user ? <WelcomeBanner firstName={localStorage.getItem('userName')} /> :
+          <WelcomeBanner firstName={'User'} />
+      }
 
       {/* Hero section */}
       <div className="px-4 py-4 text-center text-sm md:text-base">

@@ -118,9 +118,9 @@ const [checking, setChecking] = useState(true);
       // localStorage.setItem("token", data.token);
 
       setTimeout(() => {
-        navigate("/");
-        alert("You can now login with your credentials.");
+        navigate("/");        
       }, 2000);
+      alert("You can now login with your credentials.");
     } else {
       console.error("Signup failed:", data);
       alert(data.message || "Signup failed. Please try again.");
