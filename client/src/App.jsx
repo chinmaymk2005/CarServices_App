@@ -4,7 +4,7 @@ import Auth from "./pages/Authentication";
 import Service from "./pages/services";
 import Booking from "./pages/Booking"; 
 import About from "./pages/About";
-import ContactUs from "./pages/ContactUs";
+import ContactUs from "./pages/contact";
 
 
 function App() {
